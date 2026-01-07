@@ -21,13 +21,13 @@ server {
   index index.html index.htm index.nginx-debian.html index.php;
   
   # ATTENTION: __STATIC_ABSOLUTE_PATH__
-  location /static {
+  location /static/ {
     autoindex on;
     alias __STATIC_ABSOLUTE_PATH__;
   }
 
   # ATTENTION: __MEDIA_ABSOLUTE_PATH__ 
-  location /media {
+  location /media/ {
     autoindex on;
     alias __MEDIA_ABSOLUTE_PATH__;
   }
