@@ -1,0 +1,134 @@
+🔹 Passo 1 — Criar (ou conferir) o SSH config
+
+Abra:
+
+notepad $env:USERPROFILE\.ssh\config
+
+
+Cole exatamente isto:
+
+Host ec2-agenda
+    HostName ec2-54-198-203-208.compute-1.amazonaws.com
+    User ubuntu
+    IdentityFile C:/Users/TiagoOliveira/Downloads/Tiago-Key.pem
+    IdentitiesOnly yes
+
+
+⚠️ Atenção:
+
+Use barra normal /, não \
+
+O caminho da chave tem que existir
+
+🔹 Passo 2 — Testar o alias (muito importante)
+ssh ec2-agenda
+
+Resultado esperado:
+
+Entra na EC2
+
+❌ Não pede senha
+
+❌ Não pede caminho da chave
+
+Se isso não funcionar, o push também não vai.
+
+🔹 Passo 3 — Ajustar o remote do Git
+git remote remove agendarepo
+git remote add agendarepo ec2-agenda:~/agendarepo
+
+
+Confirme:
+
+git remote -v
+
+🔹 Passo 4 — PUSH 🚀
+git push agendarepo main
+
+🔴 O erro real agora
+ssh: Could not resolve hostname ec2-agenda
+
+
+Isso significa uma coisa só:
+
+❌ O SSH não encontrou o alias ec2-agenda
+👉 Logo, o arquivo ~/.ssh/config não existe, está no lugar errado ou está malformado
+
+✅ Vamos corrigir isso de forma 100% garantida
+🔹 PASSO 1 — Verificar se a pasta .ssh existe
+
+No PowerShell:
+
+dir $env:USERPROFILE\.ssh
+
+Se der erro:
+Cannot find path
+
+
+Crie a pasta:
+
+mkdir $env:USERPROFILE\.ssh
+
+🔹 PASSO 2 — Criar o arquivo CORRETO (sem extensão)
+
+⚠️ Isso é importante no Windows
+
+Execute:
+
+notepad $env:USERPROFILE\.ssh\config
+
+
+👉 Se o Windows perguntar “Deseja criar?”, clique Sim
+
+🔹 PASSO 3 — Cole EXATAMENTE isto (copie e cole)
+Host ec2-agenda
+    HostName ec2-54-198-203-208.compute-1.amazonaws.com
+    User ubuntu
+    IdentityFile C:/Users/TiagoOliveira/Downloads/Tiago-Key.pem
+    IdentitiesOnly yes
+
+⚠️ ATENÇÃO
+
+O arquivo deve se chamar config
+
+❌ NÃO pode ser config.txt
+
+❌ NÃO pode ter BOM
+
+❌ NÃO pode ter aspas
+
+Use / nas pastas
+
+🔹 PASSO 4 — Confirmar o nome do arquivo
+
+Execute:
+
+dir $env:USERPROFILE\.ssh
+
+
+O resultado deve mostrar:
+
+config
+
+
+Se aparecer:
+
+config.txt
+
+
+Renomeie:
+
+ren $env:USERPROFILE\.ssh\config.txt config
+
+🔹 PASSO 5 — Testar o alias (ESSENCIAL)
+ssh ec2-agenda
+
+Resultado esperado:
+
+✅ Conecta na EC2
+
+❌ Não pede senha
+
+❌ Não pede chave
+
+

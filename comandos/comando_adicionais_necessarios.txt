@@ -1,0 +1,20 @@
+cd /etc/nginx/sites-enabled/
+ls
+sudo rm -f default
+cd ..
+cd sites/available/
+ls
+sudo nano agenda
+#cola o conteudo server do nginx configurado
+
+cd ../sites-enabled/
+
+sudo ln -s /etc/nginx/sites-available/agenda /etc/nginx/sites-enabled/
+ls
+
+
+# alterar o allowed hosts caso preciso
+cd ~/agendaapp/
+nano projects local_settings.py
+sudo systemctl restart agenda
+sudo systemctl restart nginx
